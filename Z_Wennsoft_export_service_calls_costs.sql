@@ -11,6 +11,7 @@ SELECT
 		WHEN Costs.Sp_Cost_Code = 'E' THEN '1'
 		WHEN Costs.Sp_Cost_Code = 'M' THEN '2'
 		WHEN Costs.Sp_Cost_Code = 'S' THEN '4'
+		WHEN Costs.Sp_Cost_Code = 'O' THEN '5'
 		WHEN Costs.Sp_Cost_Code = 'L' THEN '6'
 		ELSE Costs.Sp_Cost_Code
 	END AS WS_Cost_Code
@@ -21,11 +22,11 @@ SELECT
 		ELSE 0
 	END AS TRX_Hours_Units
 	,CASE
-		WHEN Costs.Sp_Cost_Code <> 'L' THEN Costs.Quantity
+		WHEN Costs.Sp_Cost_Code <> 'L' THEN CAST(Costs.Quantity AS int)
 		ELSE '0'
 	END AS TRX_Qty
-	,'' AS Unit_Cost
-	,'' AS Extended_Cost
+	,'' AS Unit_Cost				-- Calculated in Excel
+	,'' AS Extended_Cost			-- Calculated in Excel
 	,Costs.Transaction_Amount AS Billing_Amount
 	,Costs.Pay_Type AS Pay_Record
 	,Costs.Tran_Source AS TRX_Source
