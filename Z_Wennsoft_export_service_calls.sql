@@ -2,6 +2,74 @@
     This is saved as a view.
 */
 
+-- Connect to SQL server: https://learn.microsoft.com/en-us/sql/tools/visual-studio-code/sql-server-develop-use-vscode?view=sql-server-ver16
+
+-- List views in the database: https://stackoverflow.com/questions/2903262/sql-query-to-list-all-views-in-an-sql-server-2005-database
+/** SELECT * FROM sys.views ORDER BY name 
+*/
+
+-- List tables in the database:
+/** SELECT * from sys.tables ORDER BY name
+*/
+
+-- Get definition of a given view: https://learn.microsoft.com/en-us/sql/relational-databases/views/get-information-about-a-view?view=sql-server-ver16#to-get-the-definition-and-properties-of-a-view
+/** select object_definition (object_ID('Z_Wennsoft_export_jobs')) 
+*/
+
+-- select * from sys.views
+-- where name like '%avid%'
+
+-- select object_definition (object_ID('Z_avid_vendor_submission_history_1year')) AS definition
+
+
+--/*Paid.DATE_LAST_PAYMENT ASC*/CREATE VIEW dbo.Z_Avid_vendor_submission_history_1yearAS
+-- SELECT   
+--     LTRIM(RTRIM(Vendors.Vendor_Code)) AS Vendor_Code
+--     ,Paid.Checks_per_annum
+--     ,Paid.Paid_per_annum
+--     ,LTRIM(RTRIM(Vendors.Vendor_Name)) AS Vendor_Name
+--     ,LTRIM(RTRIM(Vendors.Contact_Name)) AS Vendor_Contact
+--     ,LTRIM(RTRIM(Vendors.Address_1)) AS Address1
+--     ,LTRIM(RTRIM(Vendors.Address_2)) AS Address2
+--     ,LTRIM(RTRIM(Vendors.Address_3)) AS City
+--     ,Vendors.State
+--     ,LTRIM(RTRIM(Vendors.Zip_Code)) AS Zip_Code
+--     ,LTRIM(RTRIM(Vendors.Phone)) AS Phone1
+-- FROM
+--     dbo.VN_VENDOR_MASTER_MC AS Vendors WITH (NOLOCK) 
+--     LEFT OUTER JOIN                             
+--     (SELECT LTRIM(RTRIM(VENDOR_CODE)) AS Vendor_Code
+--         ,SUM(PAID_MTD) AS Paid_per_annum
+--         ,SUM(CHECK_COUNT_MTD) AS Checks_per_annum
+--     FROM VN_VENDOR_PAID_BY_MONTH_MC
+--     WHERE (COMPANY_CODE = 'NA2') AND (DATE_LAST_PAYMENT > GETDATE() - 365)
+--     GROUP BY LTRIM(RTRIM(VENDOR_CODE))
+--     ) AS Paid 
+--         ON LTRIM(RTRIM(Vendors.Vendor_Code)) = Paid.Vendor_Code
+
+-- WHERE
+--     (Vendors.Company_Code = 'NA2')
+--     AND (Vendors.Status = 'A')
+-- ORDER BY Vendor_Code
+
+
+-- SELECT
+--     LTRIM(RTRIM(Vendors.Vendor_Code)) AS VN_Code
+--     ,Paid.*
+-- FROM 
+--     VN_Vendor_Master_MC AS Vendors
+--     LEFT OUTER JOIN
+--     VN_VENDOR_PAID_BY_MONTH_MC AS Paid
+--         ON LTRIM(RTRIM(Vendors.Vendor_Code)) = Paid.Vendor_Code
+-- WHERE
+--     (Vendors.Company_Code = 'NA2')
+--     AND (Vendors.Status = 'A')
+--     AND (Vendors.Vendor_Code = 'AIRECSUPPL')
+--     AND (Paid.GL_Year = 2024)
+-- ORDER BY VN_Code
+
+
+
 SELECT
     LTRIM(RTRIM(WO.WO_Number)) AS WO_Number
     , WO.WO_Date_List1 AS Create_Date
@@ -14,6 +82,7 @@ SELECT
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'COMD-DC' THEN 'DC_HVAC_EMERG' 
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'COMM-MD' THEN 'MD_HVAC_EMERG' 
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'COMM-VA' THEN 'VA_HVAC_EMERG' 
+        WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'COMV-VA' THEN 'VA_HVAC_EMERG'
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'CTDC-DC' THEN 'DC_HVAC_EMERG' 
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'CTDC-MD' THEN 'MD_HVAC_EMERG' 
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'CTMD-DC' THEN 'DC_HVAC_EMERG' 
@@ -45,6 +114,7 @@ SELECT
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'PMVA_HVAC_WATER' THEN 'VA_HVAC_WATER'
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'PMWT-DC' THEN 'DC_HVAC_WATER'
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'PMWT-MD' THEN 'MD_HVAC_WATER'
+        WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'PMWT-VA' THEN 'VA_HVAC_WATER'
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'SC-DC-DC' THEN 'DC_HVAC_PM' 
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'SC-DC-VA' THEN 'VA_HVAC_PM'
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'SC-MD-' THEN 'MD_HVAC_PM'
