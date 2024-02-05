@@ -45,4 +45,4 @@ FROM
 
 WHERE
 	Costs.Sp_Cost_Code <> ''
-	AND Calls.Status <> 'Closed'
+	AND Calls.Status = 'Open'
