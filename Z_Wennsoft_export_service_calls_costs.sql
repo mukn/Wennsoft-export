@@ -28,8 +28,12 @@ SELECT
 	,'' AS Unit_Cost				-- Calculated in Excel
 	,'' AS Extended_Cost				-- Calculated in Excel
 	,Costs.Transaction_Amount AS Billing_Amount
-	,Costs.Pay_Type AS Pay_Record
-	,Costs.Tran_Source AS TRX_Source
+	,CASE
+		WHEN Costs.Pay_Type = 'R' THEN 'REG'
+		WHEN Costs.Pay_Type = 'O' THEN 'OT'
+		WHEN Costs.Pay_Type = 'D' THEN 'DT'
+	END AS Pay_Record
+	,LTRIM(RTRIM(Costs.Tran_Source)) AS TRX_Source
 	--,'' AS Blank
 	--,Costs.*
 	--,Calls.*
@@ -46,3 +50,4 @@ FROM
 WHERE
 	Costs.Sp_Cost_Code <> ''
 	AND Calls.Status = 'Open'
+	AND Costs.Tran_Source = 'PR'
