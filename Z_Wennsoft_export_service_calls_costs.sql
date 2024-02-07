@@ -37,7 +37,7 @@ SELECT
 		WHEN Costs.Pay_Type = 'R' AND Costs.Control_Code IN (SELECT Control_Code FROM Summed) THEN S.Sum_Amount 
 		ELSE Costs.Transaction_Amount 
 	END AS Extended_Cost
-	,'' AS Billing_Amount
+	,'Get from Inv.Billed' AS Billing_Amount
 	,CASE
 		WHEN Costs.Pay_Type = 'R' THEN 'REG'
 		WHEN Costs.Pay_Type = 'O' THEN 'OT'
@@ -45,6 +45,7 @@ SELECT
 		ELSE ''
 	END AS Pay_Record
 	,Costs.Tran_Source AS TRX_Source
+	,xref.Invoice_Number
 FROM 
 	Z_Wennsoft_export_service_calls AS Calls 
 	LEFT OUTER JOIN
@@ -52,10 +53,17 @@ FROM
         Quantity, Unit_Of_Measure, Hours, Pay_Type, Remarks, LTRIM(RTRIM(AP_Vendor_Code)) AS Vendor_Code, Control_Code
     FROM WO_COST_HISTORY_MC) AS Costs 
 		ON Calls.WO_Number = Costs.WO_Number
-	LEFT JOIN Summed AS S 
+	LEFT JOIN 
+	Summed AS S 
 		ON Costs.Control_Code = S.Control_Code
+	LEFT OUTER JOIN
+	(SELECT LTRIM(RTRIM(Work_Order)) AS WO_Number,LTRIM(RTRIM(Invoice_Or_Transaction)) AS Invoice_Number
+	FROM CR_OPEN_ITEM_INVOICE_MC
+	WHERE (Company_Code = 'NA2') AND (Work_Order <> '')) AS xref
+		ON Calls.WO_Number = xref.WO_Number
 WHERE 
 	(Calls.Status = 'Open') 
 	AND (Costs.Sp_Cost_Code <> '')
 	AND Costs.Pay_Type NOT IN ('BASIC LIFE', 'LTD ER')
+	--AND Calls.WO_Number = '100003' OR Calls.WO_Number = '113551'
 ORDER BY Calls.WO_Number, Location_Code, Document_Date
