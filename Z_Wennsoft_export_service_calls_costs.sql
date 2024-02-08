@@ -65,5 +65,4 @@ WHERE
 	(Calls.Status = 'Open') 
 	AND (Costs.Sp_Cost_Code <> '')
 	AND Costs.Pay_Type NOT IN ('BASIC LIFE', 'LTD ER')
-	--AND Calls.WO_Number = '100003' OR Calls.WO_Number = '113551'
 ORDER BY Calls.WO_Number, Location_Code, Document_Date
