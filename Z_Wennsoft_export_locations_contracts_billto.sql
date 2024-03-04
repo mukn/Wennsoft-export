@@ -18,6 +18,10 @@ SELECT
     ELSE Site.Ship_To_Address2
   END AS Location_Addr2
   ,CASE
+    WHEN Contract.BILLTO_CODE <> '' THEN Bill.AltName 
+    ELSE Site.Ship_To_Name
+  END AS Location_Addr3
+  ,CASE
     WHEN Contract.BILLTO_CODE <> '' THEN PA.Addr_City 
     ELSE Site.Ship_To_City
   END AS Location_City
