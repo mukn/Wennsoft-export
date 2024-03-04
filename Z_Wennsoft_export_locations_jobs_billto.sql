@@ -6,6 +6,7 @@ SELECT
   ,Bill.AltName AS Location_Name
   ,p.Addr_1 AS Location_Addr1
   ,p.Addr_2 AS Location_Addr2
+  ,Bill.AltName AS Location_Addr3
   ,p.Addr_City AS Location_City
   ,p.Addr_State AS Location_State
   ,p.Addr_Zip AS Location_Zip
