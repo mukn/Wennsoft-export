@@ -1,5 +1,5 @@
 SELECT
-  j1.Customer_Code
+  LTRIM(RTRIM(j1.Customer_Code)) AS Customer_Code
   ,j1.Job_Number
   ,j1.WO_Site AS Location_Code
   ,'Main' AS BillTo_Code
