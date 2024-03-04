@@ -6,6 +6,7 @@ SELECT
   ,j1.Job_Description AS Location_Name
   ,j1.Address_1 AS Location_Addr1
   ,j1.Address_2 AS Location_Addr2
+  ,'' AS Location_Addr3
   ,j1.City AS Location_City
   ,j1.State AS Location_State
   ,j1.Zip_Code AS Location_Zip
