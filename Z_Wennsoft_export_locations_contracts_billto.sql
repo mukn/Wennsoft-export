@@ -1,5 +1,5 @@
 SELECT   
-  Contract.Customer_Code
+  LTRIM(RTRIM(Contract.Customer_Code)) AS Customer_Code
   ,LTRIM(RTRIM(Contract.Contract_Number)) AS Contract_Number
   ,CASE
     WHEN Contract.ALTERNATE_ADDRESS = 'Y' THEN CONCAT(LTRIM(RTRIM(Contract.Site_ID)), '-BillTo') 
