@@ -6,6 +6,7 @@ SELECT
   ,Site.Ship_To_Name AS Location_Name
   ,Site.Ship_To_Address1 AS Location_Addr1
   ,Site.Ship_To_Address2 AS Location_Addr2
+  ,'' AS Location_Addr3
   ,Site.Ship_To_City AS Location_City
   ,Site.Ship_To_State AS Location_State
   ,Site.Ship_To_Zip_Code AS Location_Zip
