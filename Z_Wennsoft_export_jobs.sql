@@ -9,7 +9,7 @@ SELECT
 	,jDesc.Alpha_Field AS Job_Description
 	,jPrio.Alpha_Field AS Priority
 	,CAST(jOT.Amount_Field AS int) AS Estimated_OT_Hours
-	,CAST(jLbr.Amount_Field AS int) AS Estimated_Labor_hours
+	,CAST(jLbr.Amount_Field AS int) AS Estimated_Manpower
 	,jPerm.Alpha_Field AS Permit_Reqd
 	,jSch.Alpha_Field AS Scheduling_Status
 	,LTRIM(RTRIM(j1.Division)) AS Division
