@@ -1,3 +1,4 @@
+/* -- Z_Wennsoft_export_service_contracts -- */
 SELECT
 	c1.Customer_Code
 	,RTRIM(LTRIM(c1.Contract_Number)) AS Contract_number
@@ -13,7 +14,14 @@ SELECT
 		ELSE '5'
 	END AS Bill_Freq_Code
 	,c1.Contract_Amount AS Contract_Amount_Lifetime
-	,'' AS Contract_Amount_Annual										-- This is a calculated column to provide the annual contract amount if the term is greater than one year.
+	,CASE
+		WHEN (CAST((c1.End_Date - c1.Begin_Date) AS int) > 366) THEN 'True'
+		ELSE 'False'
+	END AS GreaterThanYear												-- This flags when a contract is greater than one year in duration.
+	,CASE
+		WHEN (CAST((c1.End_Date - c1.Begin_Date) AS int) > 366) THEN CAST(c1.Contract_Amount / ((CAST((c1.End_Date - c1.Begin_Date) AS decimal)) / 365) AS int)
+		ELSE c1.Contract_Amount
+	END AS Contract_Amount_Annual										-- This is a calculated column to provide the annual contract amount if the term is greater than one year.
 	,c1.Salesman
 	,c1.BILLTO_CODE AS Contract_BillTo
 	,WA.Billto_Code AS Site_BillTo
