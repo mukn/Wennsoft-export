@@ -26,8 +26,8 @@ SELECT
   END AS Location_BillTo
   ,{ fn CONCAT(j1.Customer_Code, { fn CONCAT('-', { fn CONCAT(j1.WO_Site, '-Main') }) }) } AS Comparison_Key
   ,Cust.Customer_Email
-  ,j1.Longitude
-  ,j1.Latitude
+  ,j1.Longitude AS Location_Longitude
+  ,j1.Latitude AS Location_Latitude
 FROM         
   (SELECT LTRIM(RTRIM(Customer_Code)) AS Customer_Code, LTRIM(RTRIM(Job_Number)) AS Job_Number, LTRIM(RTRIM(Job_Description)) AS Job_Description, LTRIM(RTRIM(Address_1)) AS Address_1, LTRIM(RTRIM(Address_2)) AS Address_2, LTRIM(RTRIM(City)) AS City, LTRIM(RTRIM(State)) AS State, LTRIM(RTRIM(Zip_Code)) 
                                                     AS Zip_Code, LTRIM(RTRIM(Phone)) AS Phone, LTRIM(RTRIM(Sales_Tax_Code)) AS Sales_Tax_Code, LTRIM(RTRIM(WO_Site)) AS WO_Site, Latitude, Longitude
