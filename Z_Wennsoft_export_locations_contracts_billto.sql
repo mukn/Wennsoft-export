@@ -50,6 +50,8 @@ SELECT
     ELSE LTRIM(RTRIM(Contract.Site_ID)) 
   END AS Location_BillTo
   ,Cust.Customer_Email
+  ,Site.Location_Latitude
+  ,Site.Location_Longitude
 FROM
   dbo.Z_K2A_EXPORT_CUSTOMERS AS Cust
   RIGHT OUTER JOIN
