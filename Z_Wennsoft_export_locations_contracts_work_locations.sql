@@ -27,6 +27,8 @@ SELECT
     ELSE LTRIM(RTRIM(Contract.Site_ID)) 
   END AS Location_BillTo
   ,Cust.Customer_Email
+  ,Site.Latitude
+  ,Site.Longitude
 FROM
   dbo.PA_ADDRESS_MASTER AS PA
   RIGHT OUTER JOIN
