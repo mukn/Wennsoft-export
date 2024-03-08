@@ -23,8 +23,8 @@ SELECT
   END AS Location_BillTo
   ,{ fn CONCAT(j1.Customer_Code, { fn CONCAT('-', { fn CONCAT(j1.WO_Site, '-Main') }) }) } AS Comparison_Key
   ,Cust.Customer_Email
-  ,j1.Latitude
-  ,j1.Longitude
+  ,j1.Latitude AS Location_Latitude
+  ,j1.Longitude AS Location_Longitude
 FROM
   dbo.JC_JOB_MASTER_MC AS j1
   LEFT OUTER JOIN
