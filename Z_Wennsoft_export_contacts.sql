@@ -1,5 +1,6 @@
 SELECT
-	Cust.Customer_Code
+	CONCAT(Locs.Location_Code,CAST(Xref.Contact_ID AS varchar)) AS CompKey
+	,Locs.Location_Code
 	,Xref.Contact_ID
 	,Contacts.Concat_Name
 	,Contacts.Last_Name
@@ -14,13 +15,15 @@ SELECT
 	,Addrs.Addr_state
 	,Addrs.Addr_zip
 	,Addrs.Addr_Display
-FROM
 	
-	Z_K2A_EXPORT_CUSTOMERS AS Cust
-	INNER JOIN
-	PA_Contact_All_Addr_Types_V AS Xref
-		ON Cust.Customer_Code = LTRIM(RTRIM(Xref.Code1))
+FROM
+	Z_Wennsoft_export_locations_union AS Locs
 	LEFT OUTER JOIN
+	(SELECT LTRIM(RTRIM(Site_ID)) AS Location_Code,Contact_ID
+	FROM WO_SITE_CONTACTS_MC
+	WHERE Company_Code = 'NA2') AS Xref
+		ON Locs.Location_Code = Xref.Location_Code
+	INNER JOIN
 	PA_CONTACTS_MASTER AS Contacts
 		ON Xref.Contact_ID = Contacts.Contact_ID
 	LEFT OUTER JOIN
@@ -33,5 +36,5 @@ WHERE
 	Contacts.Email1 <> ''
 	AND Contacts.Status = 'A'
 ORDER BY 
-	Customer_Code
+	Location_Code
 	,Contacts.Last_Name
