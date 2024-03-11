@@ -15,7 +15,7 @@ SELECT
 	,Addrs.Addr_state
 	,Addrs.Addr_zip
 	,Addrs.Addr_Display
-	
+	,Locs.Customer_Code
 FROM
 	Z_Wennsoft_export_locations_union AS Locs
 	LEFT OUTER JOIN
