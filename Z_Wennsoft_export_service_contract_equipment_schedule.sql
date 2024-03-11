@@ -5,16 +5,16 @@ SELECT
   ,Visit.Visit_Date
   ,VEqp.Equipment
   ,Visit.Budget_Hours
-  ,Visit.Description
+  ,Visit.Description AS Description_Spectrum
   ,CASE
-  	WHEN Visit.Description LIKE 'Annual%Maint%' THEN 'Annual Maintenance'
-  	WHEN Visit.Description LIKE 'Tower Cle%' THEN 'Annual Tower Cleaning'
-  	WHEN Visit.Description LIKE '%Change%' THEN 'Changeover'
-  	WHEN Visit.Description LIKE 'Engin%' THEN 'Engineering'
-  	WHEN Visit.Description LIKE '%Summer%' THEN 'Summer Work'
-  	WHEN Visit.Description LIKE 'Water Tre%' THEN 'Water Treatment'
-  	WHEN Visit.Description LIKE '%Winter%' THEN 'Winter Work'
-  	ELSE 'Inspection'
+	WHEN Visit.Description LIKE 'Annual%Maint%' THEN 'Annual Maintenance'
+	WHEN Visit.Description LIKE 'Tower Cle%' THEN 'Annual Tower Cleaning'
+	WHEN Visit.Description LIKE '%Change%' THEN 'Changeover'
+	WHEN Visit.Description LIKE 'Engin%' THEN 'Engineering'
+	WHEN Visit.Description LIKE '%Summer%' THEN 'Summer Work'
+	WHEN Visit.Description LIKE 'Water Tre%' THEN 'Water Treatment'
+	WHEN Visit.Description LIKE '%Winter%' THEN 'Winter Work'
+	ELSE 'Inspection'
   END AS Description
 
 FROM
