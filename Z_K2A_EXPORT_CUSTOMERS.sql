@@ -12,7 +12,8 @@ SELECT
   ,Cust.Fax_Phone AS Customer_PrimaryContactFax
   ,Cont.Email1 AS Customer_PrimaryContactEmail
   ,Cust.Salesperson AS Employee_Initials
-  ,Cust.Markup_Code AS Price_Matrix
+  ,'ALL' AS Price_Matrix
+  ,Cust.Markup_Code AS Price_Matrix_SP
   ,CASE
     WHEN (SxC.Customer_Code <> '') 
     THEN 'Contract' 
