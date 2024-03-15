@@ -16,7 +16,7 @@ SELECT
   ,'' AS Service_Zone
   ,'Non-contract' AS [Contract/Non-contract]
   ,'' AS Vertical_Market
-  ,'' AS Sales_Tax_Code
+  ,'NT' AS Sales_Tax_Code
   ,CASE
     WHEN c1.BillTo_Flag = 'Y' THEN CONCAT(j1.WO_Site, '-BillTo') 
     ELSE j1.WO_Site
