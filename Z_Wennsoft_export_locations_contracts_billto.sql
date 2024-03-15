@@ -43,7 +43,7 @@ SELECT
   END AS [Contract/Non-contract]
   ,WU.Vert_Market AS Vertical_Market
   ,'NT' AS Sales_Tax_Code
-  ,Site.Sales_Tax_Code_SP
+  ,Site.Sales_Tax_Code AS Sales_Tax_Code_SP
   ,{ fn CONCAT(LTRIM(RTRIM(Contract.Customer_Code)), { fn CONCAT('-', { fn CONCAT(LTRIM(RTRIM(Contract.Site_ID)), '-Main') }) }) } AS Comparison_Key
   ,Contract.ALTERNATE_ADDRESS AS AltBillTo_Flag
   ,CASE
@@ -86,6 +86,6 @@ WHERE
 GROUP BY Contract.Site_ID, Contract.Contract_Amount, Contract2.Status, Contract.Contract_Number, Site.Ship_To_Name, Site.Ship_To_Address1, Site.Ship_To_Address2, Site.Ship_To_City, 
                          Site.Ship_To_State, Site.Ship_To_Zip_Code, Site.Ship_To_Phone1, Site.Ship_To_Phone2, Site.Site_Contact_Person, Site.Zone, WU.Vert_Market, Site.Sales_Tax_Code, 
                          Contract.Customer_Code, Contract.BILLTO_CODE, Contract.ALTERNATE_ADDRESS, Bill.AltName, PA.Addr_1, PA.Addr_2, PA.Addr_City, PA.Addr_State, PA.Addr_Zip, 
-                         Cust.Customer_Email
+                         Cust.Customer_Email, Site.Longitude, Site.Latitude
 HAVING   
   (Contract2.Status = 'active')
