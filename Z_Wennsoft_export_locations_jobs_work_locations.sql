@@ -19,7 +19,8 @@ SELECT
     ELSE 'Non-contract'
   END AS [Contract/Non-contract]
   ,WU.Vert_Market AS Vertical_Market
-  ,j1.Sales_Tax_Code
+  ,'NT' AS Sales_Tax_Code
+  ,j1.Sales_Tax_Code_SP
   ,CASE
     WHEN c1.BillTo_Flag = 'Y' THEN CONCAT(j1.WO_Site, '-BillTo') 
     ELSE j1.WO_Site
