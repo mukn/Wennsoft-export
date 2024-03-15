@@ -20,7 +20,7 @@ SELECT
   END AS [Contract/Non-contract]
   ,WU.Vert_Market AS Vertical_Market
   ,'NT' AS Sales_Tax_Code
-  ,Site.Sales_Tax_Code_SP
+  ,Site.Sales_Tax_Code AS Sales_Tax_Code_SP
   ,{ fn CONCAT(LTRIM(RTRIM(Contract.Customer_Code)), { fn CONCAT('-', { fn CONCAT(LTRIM(RTRIM(Contract.Site_ID)), '-Main') }) }) } AS Comparison_Key
   ,Contract.ALTERNATE_ADDRESS AS AltBillTo_Flag
   ,CASE
