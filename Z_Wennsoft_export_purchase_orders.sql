@@ -22,7 +22,7 @@ SELECT
 	,CASE
 		WHEN PO.WO_Number <> '' THEN 'n/a'
 		ELSE 'Job cost code needed'
-	END AS Cost_type										--,Cost code			Needs definition
+	END AS Cost_code										--,Cost code			Needs definition
 	,'1 or 2' AS PO_line_status								--,PO line status		Needs definition
 	,'1 or 2' AS PO_status									--,PO status			Needs definition
 	,Det.PO_Quantity_List1 AS Qty_Ordered					--,Qty order
@@ -77,7 +77,21 @@ FROM
 	LEFT JOIN
 	PO_PURCHASE_ORDER_DETAIL_MC AS Det WITH (NOLOCK)
 		ON LTRIM(RTRIM(PO.PO_Number)) = LTRIM(RTRIM(Det.PO_Number))
+	LEFT OUTER JOIN
+	(SELECT LTRIM(RTRIM(Job_Number)) AS jn,LTRIM(RTRIM(Phase_Code)) AS pc,LTRIM(RTRIM(Cost_Type)) AS cc,LTRIM(RTRIM(PO_Number)) AS pn,LTRIM(RTRIM(Line_Number)) AS ln
+	FROM PO_JOB_PHASE_XREF_MC
+	WHERE Company_Code = 'NA2') AS xref_jc
+		ON LTRIM(RTRIM(PO.Job_Number)) = xref_jc.jn
+			AND LTRIM(RTRIM(Det.Line_Number)) = xref_jc.ln
+			AND LTRIM(RTRIM(PO.PO_Number)) = xref_jc.pn
 WHERE
 	PO.Company_Code = 'NA2'
-	--AND PO.Status = 'Open'
+	AND PO.Status = 'Open'
+
+
+
+	--AND LTRIM(RTRIM(PO.Job_Number))  = '24020402RO'
+
+
+
 ORDER BY LTRIM(RTRIM(PO.PO_Number)) DESC, LTRIM(RTRIM(Det.Line_Number))
