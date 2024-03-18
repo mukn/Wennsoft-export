@@ -1,5 +1,6 @@
 SELECT
 	LTRIM(RTRIM(Ship_To_Customer_Code)) AS Customer_Code
+	,LTRIM(RTRIM(Contract.Contract_Number)) AS Contract_Number
 	,LTRIM(RTRIM(Ship_to_id)) AS Location_Code
 	,LTRIM(RTRIM(Site.Billto_Code)) AS Location_BillTo
 	,LTRIM(RTRIM(Ship_To_Name)) AS Location_Name
