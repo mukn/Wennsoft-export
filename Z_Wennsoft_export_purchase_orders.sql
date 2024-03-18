@@ -15,18 +15,19 @@ SELECT
 		WHEN PO.WO_Number <> '' THEN LTRIM(RTRIM(PO.WO_Number))
 		ELSE ''
 	END AS Work_Number										-- Job number
+	,Det.GL_Account
 	,CASE
 		WHEN PO.Job_Number <> '' THEN 'n/a'
-		ELSE 'Service cost code needed'
-	END AS Cost_type										--,Cost type			Needs definition
+		ELSE GL.CostCodes_Wennsoft
+	END AS Cost_type										--,Cost type
 	,CASE
 		WHEN PO.WO_Number <> '' THEN 'n/a'
-		ELSE 'Job cost code needed'
-	END AS Cost_code										--,Cost code			Needs definition
-	,'1 or 2' AS PO_line_status								--,PO line status		Needs definition
-	,'1 or 2' AS PO_status									--,PO status			Needs definition
+		ELSE GL.CostCodes_Wennsoft
+	END AS Cost_code										--,Cost Code
+	,2 AS PO_line_status									--,PO line status
+	,2 AS PO_status											--,PO status
 	,Det.PO_Quantity_List1 AS Qty_Ordered					--,Qty order
-	,'qty if po status & line status = 2' AS Qty_comtd		--,Qty com td			Needs definition
+	,Det.PO_Quantity_List1 AS Qty_comtd						--,Qty com td
 	,'0' AS Qty_inv_cd										--,Qty inv cd
 	,'0' AS Qty_cance										--,Qty cance
 	,'0' AS Qty_rej											--,Qty rej
@@ -77,13 +78,24 @@ FROM
 	LEFT JOIN
 	PO_PURCHASE_ORDER_DETAIL_MC AS Det WITH (NOLOCK)
 		ON LTRIM(RTRIM(PO.PO_Number)) = LTRIM(RTRIM(Det.PO_Number))
+	
 	LEFT OUTER JOIN
-	(SELECT LTRIM(RTRIM(Job_Number)) AS jn,LTRIM(RTRIM(Phase_Code)) AS pc,LTRIM(RTRIM(Cost_Type)) AS cc,LTRIM(RTRIM(PO_Number)) AS pn,LTRIM(RTRIM(Line_Number)) AS ln
-	FROM PO_JOB_PHASE_XREF_MC
-	WHERE Company_Code = 'NA2') AS xref_jc
-		ON LTRIM(RTRIM(PO.Job_Number)) = xref_jc.jn
-			AND LTRIM(RTRIM(Det.Line_Number)) = xref_jc.ln
-			AND LTRIM(RTRIM(PO.PO_Number)) = xref_jc.pn
+	(SELECT LTRIM(RTRIM(Job_Number)) AS Job_Number,State--,*
+	FROM JC_JOB_MASTER_MC
+	WHERE Company_Code = 'NA2') AS Job
+		ON PO.Job_Number = Job.Job_Number
+	LEFT OUTER JOIN
+	Z_Wennsoft_GL_map AS GL
+		--ON CAST(Det.GL_Account AS int) = CAST(GL.GL_Current_Numeric AS int)
+		ON Det.GL_Account = GL.GL_Current_Numeric
+			AND GL.State = Job.State
+	--LEFT OUTER JOIN
+	--(SELECT LTRIM(RTRIM(Job_Number)) AS jn,LTRIM(RTRIM(Phase_Code)) AS pc,LTRIM(RTRIM(Cost_Type)) AS cc,LTRIM(RTRIM(PO_Number)) AS pn,LTRIM(RTRIM(Line_Number)) AS ln
+	--FROM PO_JOB_PHASE_XREF_MC WITH (NOLOCK)
+	--WHERE Company_Code = 'NA2') AS xref_jc
+	--	ON LTRIM(RTRIM(PO.Job_Number)) = xref_jc.jn
+	--		AND LTRIM(RTRIM(Det.Line_Number)) = xref_jc.ln
+	--		AND LTRIM(RTRIM(PO.PO_Number)) = xref_jc.pn
 WHERE
 	PO.Company_Code = 'NA2'
 	AND PO.Status = 'Open'
