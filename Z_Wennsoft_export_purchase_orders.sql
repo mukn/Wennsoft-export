@@ -7,7 +7,9 @@ SELECT
 	,1 AS PO_Type											-- PO type (always 1)
 	,CASE
 		WHEN PO.Job_Number <> '' THEN 2
-		WHEN PO.WO_Number <> '' THEN 3
+		WHEN (PO.WO_Number <> '') 
+			AND (LEN(LTRIM(RTRIM(PO.WO_Number))) <= 6) 
+			AND (LEN(LTRIM(RTRIM(PO.WO_Number))) >= 5) THEN 3
 		ELSE 1
 	END AS Product_indicator								--,Product indicator (1=None, 2=Job cost, 3=Service)
 	,CASE
