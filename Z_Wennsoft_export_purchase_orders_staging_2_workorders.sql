@@ -1,0 +1,27 @@
+SELECT
+  P1.PO_Number
+  ,P1.Line_Number
+  ,P1.Vendor_Code
+  ,P1.Document_Date
+  ,P1.PO_Type
+  ,P1.Work_Number
+  ,P1.GL_Account
+  ,W1.Bill_State AS State
+  ,GL.GL_Wennsoft
+  ,GL.GL_Wennsoft_Description
+  ,GL.CostCodes_Wennsoft
+  ,GL.State AS GL_State
+  ,GL.GL_Current
+  ,GL.GL_Current_Numeric
+  
+FROM
+  dbo.Z_Wennsoft_export_purchase_orders_staging_1 AS P1 
+  INNER JOIN
+  dbo.WO_HEADER_MC AS W1 WITH (NOLOCK)
+    ON P1.Work_Number = LTRIM(RTRIM(W1.WO_Number)) 
+  LEFT OUTER JOIN
+  dbo.Z_Wennsoft_GL_map AS GL
+    ON P1.GL_Account = GL.GL_Current_Numeric AND W1.Bill_State = GL.State
+WHERE
+  (P1.GL_Account LIKE '06%') OR (P1.GL_Account LIKE '04%')
+ORDER BY P1.PO_Number, P1.Line_Number
