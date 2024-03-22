@@ -17,8 +17,9 @@ SELECT
 FROM
   dbo.Z_Wennsoft_export_purchase_orders_staging_1 AS P1 
   INNER JOIN
-  (SELECT LTRIM(RTRIM(Job_Number)) AS jn, State
-  FROM dbo.JC_JOB_MASTER_MC WITH (NOLOCK)) AS J1
+  (SELECT LTRIM(RTRIM(Job_Number)) AS jn, State, Status_Code
+  FROM dbo.JC_JOB_MASTER_MC WITH (NOLOCK)
+  WHERE Status_Code = 'A') AS J1
     ON P1.Work_Number = J1.jn
   LEFT OUTER JOIN
   dbo.Z_Wennsoft_GL_map AS GL
