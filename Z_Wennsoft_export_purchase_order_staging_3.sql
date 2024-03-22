@@ -1,6 +1,6 @@
 SELECT
 	P1.PO_Number
-	,P1.Line_Number
+	,CAST(P1.Line_Number AS int) AS Line_Number
 	,P1.Vendor_Code
 	,P1.Document_Date
 	,P1.PO_Type
@@ -26,7 +26,10 @@ SELECT
 			THEN '5'
 		ELSE ''
 	END AS Cost_Type
-	,P1.CostCodes_Wennsoft
+	,CASE
+		WHEN P1.GL_Account LIKE '06%' THEN P1.CostCodes_Wennsoft
+		ELSE ''
+	END AS CostCodes_Wennsoft
 	,2 AS PO_line_status
 	,2 AS PO_status
 	,Det.PO_Quantity_List1 AS Qty_Ordered					--,Qty order
@@ -73,7 +76,7 @@ FROM
 	LEFT OUTER JOIN
 	PO_PURCHASE_ORDER_DETAIL_MC AS Det WITH (NOLOCK)
 		ON P1.PO_Number = LTRIM(RTRIM(Det.PO_Number)) AND P1.Line_Number = Det.Line_Number
-ORDER BY P1.PO_Number
+ORDER BY P1.PO_Number, P1.Line_Number
 
 
 --SELECT * FROM PO_PURCHASE_ORDER_DETAIL_MC WHERE Company_Code = 'NA2' AND Taxable_Flag <> ''
