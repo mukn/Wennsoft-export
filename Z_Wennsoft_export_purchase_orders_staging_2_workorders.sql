@@ -17,8 +17,10 @@ SELECT
 FROM
   dbo.Z_Wennsoft_export_purchase_orders_staging_1 AS P1 
   INNER JOIN
-  dbo.WO_HEADER_MC AS W1 WITH (NOLOCK)
-    ON P1.Work_Number = LTRIM(RTRIM(W1.WO_Number)) 
+  (SELECT LTRIM(RTRIM(WO_Number)) AS WO_Number, Bill_State
+  FROM dbo.WO_HEADER_MC WITH (NOLOCK)
+  WHERE Hold_Status = 'F' AND Dispatch_Status_Code <> 'F') AS W1
+    ON P1.Work_Number = W1.WO_Number
   LEFT OUTER JOIN
   dbo.Z_Wennsoft_GL_map AS GL
     ON P1.GL_Account = GL.GL_Current_Numeric AND W1.Bill_State = GL.State
