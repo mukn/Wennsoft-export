@@ -11,7 +11,21 @@ SELECT
 	END AS Product_Indicator
 	,P1.Work_Number
 	,P1.GL_Account
-	,'' AS Cost_Type
+	,CASE
+		WHEN P1.GL_Account LIKE '04%' 
+			AND P1.CostCodes_Wennsoft LIKE '%EQ.%'
+			THEN '1'
+		WHEN P1.GL_Account LIKE '04%' 
+			AND P1.CostCodes_Wennsoft LIKE '%MATL%'
+			THEN '2'
+		WHEN P1.GL_Account LIKE '04%' 
+			AND P1.CostCodes_Wennsoft LIKE '%SUBC%'
+			THEN '4'
+		WHEN P1.GL_Account LIKE '04%' 
+			AND P1.CostCodes_Wennsoft <> ''
+			THEN '5'
+		ELSE ''
+	END AS Cost_Type
 	,P1.CostCodes_Wennsoft
 	,2 AS PO_line_status
 	,2 AS PO_status
@@ -21,7 +35,7 @@ SELECT
 	,'0' AS Qty_cance										--,Qty cance
 	,'0' AS Qty_rej											--,Qty rej
 	,'0' AS Qty_actual										--,Qty actual
-	,Det.Item_Price											--,Unit cost
+	,Det.Item_Price	AS Unit_cost							--,Unit cost
 	,CASE
 		WHEN Det.PO_Quantity_List1 > 0 THEN Det.PO_Quantity_List1 * Det.Item_Price
 		ELSE 0
@@ -41,6 +55,12 @@ SELECT
 		WHEN Det.Taxable_Flag = 'N' THEN 2
 		ELSE 3
 	END AS Item_Taxable
+	,Det.Tax_Amount_List1 AS Tax_Amount
+	,0 AS Freight_Amount
+	,0 AS Ret_unit_cost
+	,0 AS Ret_total_cost
+	,0 AS Ret_Pct
+	,0 AS Ret_amt_ttd
 
 
 
@@ -53,3 +73,7 @@ FROM
 	LEFT OUTER JOIN
 	PO_PURCHASE_ORDER_DETAIL_MC AS Det WITH (NOLOCK)
 		ON P1.PO_Number = LTRIM(RTRIM(Det.PO_Number)) AND P1.Line_Number = Det.Line_Number
+ORDER BY P1.PO_Number
+
+
+--SELECT * FROM PO_PURCHASE_ORDER_DETAIL_MC WHERE Company_Code = 'NA2' AND Taxable_Flag <> ''
