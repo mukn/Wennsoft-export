@@ -1,5 +1,8 @@
 SELECT
-	P1.PO_Number
+	'LINE' AS Line_Type
+	,0 AS SigLinkOnly
+	,1 AS UpdateIfExists
+	,P1.PO_Number
 	,CAST(P1.Line_Number AS int) AS Line_Number
 	,P1.Vendor_Code
 	,P1.Document_Date
@@ -78,13 +81,18 @@ SELECT
 		WHEN Det.Taxable_Flag = 'N' THEN 2
 		ELSE 3
 	END AS Item_Taxable
-	,Det.Tax_Amount_List1 AS Tax_Amount
+	,0 as Tax_Amount
+	--,Det.Tax_Amount_List1 AS Tax_Amount
 	,0 AS Freight_Amount
 	,0 AS Ret_unit_cost
 	,0 AS Ret_total_cost
 	,0 AS Ret_Pct
 	,0 AS Ret_amt_ttd
+	,1 AS HDR_UsingHeaderTaxes
+	,3 AS HDR_PurchaseFreight
+	,3 AS HDR_PurchaseTaxable
 	,'MD' AS Tax_Schedule
+	,'DELIVERY' AS ShipMethod
 
 
 
