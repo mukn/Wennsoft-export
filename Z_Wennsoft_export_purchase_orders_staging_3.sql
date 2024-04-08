@@ -89,6 +89,8 @@ SELECT
 	,0 AS Ret_total_cost
 	,0 AS Ret_Pct
 	,0 AS Ret_amt_ttd
+	,0 AS Ret_unit_cost
+	,0 AS Ret_total_cost
 	,1 AS HDR_UsingHeaderTaxes
 	,3 AS HDR_PurchaseFreight
 	,3 AS HDR_PurchaseTaxable
