@@ -5,29 +5,49 @@ SELECT
 	,P1.Document_Date
 	,P1.PO_Type
 	,CASE
-		WHEN P1.GL_Account LIKE '04%' THEN 3
-		WHEN P1.GL_Account LIKE '06%' THEN 2
+		WHEN LEN(P1.Work_Number) = 10 THEN 2
+		WHEN LEN(P1.Work_Number) < 10 THEN 3
 		ELSE 1
 	END AS Product_Indicator
+	--,CASE
+	--	WHEN P1.GL_Account LIKE '04%' THEN 3
+	--	WHEN P1.GL_Account LIKE '06%' THEN 2
+	--	ELSE 1
+	--END AS Product_Indicator						-- Updated logic to this
 	,P1.Work_Number
 	,P1.GL_Account
 	,CASE
-		WHEN P1.GL_Account LIKE '04%' 
+		WHEN LEN(P1.Work_Number) < 10
 			AND P1.CostCodes_Wennsoft LIKE '%EQ.%'
 			THEN '1'
-		WHEN P1.GL_Account LIKE '04%' 
+		WHEN LEN(P1.Work_Number) < 10
 			AND P1.CostCodes_Wennsoft LIKE '%MATL%'
 			THEN '2'
-		WHEN P1.GL_Account LIKE '04%' 
+		WHEN LEN(P1.Work_Number) < 10
 			AND P1.CostCodes_Wennsoft LIKE '%SUBC%'
 			THEN '4'
-		WHEN P1.GL_Account LIKE '04%' 
+		WHEN LEN(P1.Work_Number) < 10
 			AND P1.CostCodes_Wennsoft <> ''
 			THEN '5'
-		ELSE ''
+		ELSE '0'
 	END AS Cost_Type
+	--,CASE
+	--	WHEN P1.GL_Account LIKE '04%' 
+	--		AND P1.CostCodes_Wennsoft LIKE '%EQ.%'
+	--		THEN '1'
+	--	WHEN P1.GL_Account LIKE '04%' 
+	--		AND P1.CostCodes_Wennsoft LIKE '%MATL%'
+	--		THEN '2'
+	--	WHEN P1.GL_Account LIKE '04%' 
+	--		AND P1.CostCodes_Wennsoft LIKE '%SUBC%'
+	--		THEN '4'
+	--	WHEN P1.GL_Account LIKE '04%' 
+	--		AND P1.CostCodes_Wennsoft <> ''
+	--		THEN '5'
+	--	ELSE ''
+	--END AS Cost_Type
 	,CASE
-		WHEN P1.GL_Account LIKE '06%' THEN P1.CostCodes_Wennsoft
+		WHEN P1.GL_Account LIKE '06%' THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-2')
 		ELSE ''
 	END AS CostCodes_Wennsoft
 	,2 AS PO_line_status
@@ -64,6 +84,7 @@ SELECT
 	,0 AS Ret_total_cost
 	,0 AS Ret_Pct
 	,0 AS Ret_amt_ttd
+	,'MD' AS Tax_Schedule
 
 
 
