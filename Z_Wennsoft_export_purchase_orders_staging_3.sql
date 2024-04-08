@@ -7,11 +7,12 @@ SELECT
 	,P1.Vendor_Code
 	,P1.Document_Date
 	,P1.PO_Type
-	,CASE
-		WHEN LEN(P1.Work_Number) = 10 THEN 2
-		WHEN LEN(P1.Work_Number) < 10 THEN 3
-		ELSE 1
-	END AS Product_Indicator
+	,P1.Product_Indicator
+	--,CASE
+	--	WHEN LEN(P1.Work_Number) = 10 THEN 2
+	--	WHEN LEN(P1.Work_Number) < 10 THEN 3
+	--	ELSE 1
+	--END AS Product_Indicator
 	--,CASE
 	--	WHEN P1.GL_Account LIKE '04%' THEN 3
 	--	WHEN P1.GL_Account LIKE '06%' THEN 2
@@ -97,10 +98,10 @@ SELECT
 
 
 FROM
-	(SELECT PO_Number,Line_Number,Vendor_Code,Document_Date,PO_Type,Work_Number,GL_Account,State,GL_Wennsoft,GL_Wennsoft_Description,CostCodes_Wennsoft,GL_State,GL_Current,GL_Current_Numeric
+	(SELECT PO_Number,Line_Number,Vendor_Code,Document_Date,PO_Type,Product_Indicator,Work_Number,GL_Account,State,GL_Wennsoft,GL_Wennsoft_Description,CostCodes_Wennsoft,GL_State,GL_Current,GL_Current_Numeric
 	FROM Z_Wennsoft_export_purchase_orders_staging_2_jobs
 	UNION
-	SELECT PO_Number,Line_Number,Vendor_Code,Document_Date,PO_Type,Work_Number,GL_Account,State,GL_Wennsoft,GL_Wennsoft_Description,CostCodes_Wennsoft,GL_State,GL_Current,GL_Current_Numeric
+	SELECT PO_Number,Line_Number,Vendor_Code,Document_Date,PO_Type,Product_Indicator,Work_Number,GL_Account,State,GL_Wennsoft,GL_Wennsoft_Description,CostCodes_Wennsoft,GL_State,GL_Current,GL_Current_Numeric
 	FROM Z_Wennsoft_export_purchase_orders_staging_2_workorders) AS P1
 	LEFT OUTER JOIN
 	PO_PURCHASE_ORDER_DETAIL_MC AS Det WITH (NOLOCK)
