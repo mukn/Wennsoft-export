@@ -4,6 +4,7 @@ SELECT
   ,P1.Vendor_Code
   ,P1.Document_Date
   ,P1.PO_Type
+  ,3 AS Product_Indicator
   ,P1.Work_Number
   ,P1.GL_Account
   ,W1.Bill_State AS State
