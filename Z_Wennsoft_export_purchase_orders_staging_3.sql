@@ -51,7 +51,7 @@ SELECT
 	--	ELSE ''
 	--END AS Cost_Type
 	,CASE
-		WHEN P1.GL_Account LIKE '06%' THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-2')
+		WHEN LEN(P1.Work_Number) = 10 THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-2')
 		ELSE ''
 	END AS CostCodes_Wennsoft
 	,2 AS PO_line_status
