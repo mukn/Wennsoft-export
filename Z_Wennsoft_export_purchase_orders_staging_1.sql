@@ -14,7 +14,7 @@ FROM
   dbo.PO_PURCHASE_ORDER_HEADER_MC AS PO WITH (NOLOCK)
   LEFT OUTER JOIN
   (SELECT Company_Code, LTRIM(RTRIM(PO_Number)) AS PO_Number, Line_Number, PO_Quantity_List1 AS Qty, Item_Code, Item_Description, Item_Discount_Percent, Item_Price, Unit_Of_Measure, Tax_Percent, 
-    Tax_Amount_List1, Line_Extension_List1, Delivery_Date, GL_Account, LTRIM(RTRIM(Job_Number)) AS Job_Number, LTRIM(RTRIM(WO_Number)) AS WO_Number, Taxable_Flag
+    Tax_Amount_List1, Line_Extension_List1, Delivery_Date, LTRIM(RTRIM(GL_Account)) AS GL_Account, LTRIM(RTRIM(Job_Number)) AS Job_Number, LTRIM(RTRIM(WO_Number)) AS WO_Number, Taxable_Flag
   FROM dbo.PO_PURCHASE_ORDER_DETAIL_MC WITH (NOLOCK)
   WHERE (Company_Code = 'NA2')) AS Det
     ON LTRIM(RTRIM(PO.PO_Number)) = Det.PO_Number 
