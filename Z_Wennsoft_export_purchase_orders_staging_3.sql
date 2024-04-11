@@ -51,7 +51,15 @@ SELECT
 	--	ELSE ''
 	--END AS Cost_Type
 	,CASE
-		WHEN LEN(P1.Work_Number) = 10 THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-2')
+		WHEN LEN(P1.Work_Number) = 10 
+			AND P1.CostCodes_Wennsoft LIKE '%0MATL%'
+			THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-2')
+		WHEN LEN(P1.Work_Number) = 10 
+			AND P1.CostCodes_Wennsoft LIKE '%EQ%'
+			THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-3')
+		WHEN LEN(P1.Work_Number) = 10 
+			AND P1.CostCodes_Wennsoft LIKE '%SUBC%'
+			THEN CONCAT(REPLACE(P1.CostCodes_Wennsoft, '.', '-'), '-6')
 		ELSE ''
 	END AS CostCodes_Wennsoft
 	,2 AS PO_line_status
