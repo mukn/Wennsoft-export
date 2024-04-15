@@ -1,4 +1,4 @@
-
+SELECT
 	j1.Job_Number
 	,j1.CC_Number
 	,j1.CC_ElementNumber
