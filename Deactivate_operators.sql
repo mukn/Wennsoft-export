@@ -10,6 +10,7 @@ WHERE
 	AND Operator_ID <> 'LEE'
 	AND Operator_ID <> 'TCA'
 	AND Operator_ID <> 'SS1'
+	AND Operator_ID <> 'LH1'
 
 
 /** The UPDATE command to script */
@@ -25,6 +26,7 @@ WHERE
 	AND Operator_ID <> 'LEE'
 	AND Operator_ID <> 'TCA'
 	AND Operator_ID <> 'SS1'
+	AND Operator_ID <> 'LH1'
 
 
 /** The operator table after */
@@ -39,3 +41,4 @@ WHERE
 	OR Operator_ID = 'LEE'
 	OR Operator_ID = 'TCA'
 	OR Operator_ID = 'SS1'
+	OR Operator_ID = 'LH1'
