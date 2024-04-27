@@ -1,14 +1,11 @@
-/** This pulls service call information and recategorizes everything according to the Wennsoft divisions. 
-    This is saved as a view.
-*/
-
 SELECT
     LTRIM(RTRIM(WO.WO_Number)) AS WO_Number
     , WO.WO_Date_List1 AS Create_Date
     , WO.WO_Date_List2
     , WO.WO_Date_List3 AS Completed_Date
     ,WO.WO_Date_List4 AS Assigned_Date
-    , LTRIM(RTRIM(WO.Workman_List1)) AS Primary_Tech
+    , LTRIM(RTRIM(WO.Workman_List1)) AS Primary_emp_number
+	,TechIDs.Tech_ID AS Primary_tech
     , LTRIM(RTRIM(WO.WO_Job_Division)) AS Division
     ,CASE
         WHEN CONCAT(LTRIM(RTRIM(WO.WO_Job_Division)), '-', WO.WO_State) = 'COMD-DC' THEN 'DC_HVAC_EMERG' 
@@ -146,6 +143,9 @@ FROM
     dbo.WO_DISPATCH_STATUS_MC AS Dispatch WITH (nolock) 
         ON WO.Company_Code = Dispatch.Company_Code 
         AND WO.Dispatch_Status_Code = Dispatch.Status_Code
+	LEFT OUTER JOIN
+	TechIDs
+		ON LTRIM(RTRIM(WO.Workman_List1)) = TechIDs.Employee_Code
 WHERE     
     (WO.Company_Code = 'NA2') 
     AND (WO.WO_Date_List1 > CONVERT(DATE, '2018-12-31', 102)) 
