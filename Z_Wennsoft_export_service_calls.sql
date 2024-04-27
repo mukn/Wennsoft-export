@@ -149,7 +149,8 @@ FROM
 WHERE     
     (WO.Company_Code = 'NA2') 
     AND (WO.WO_Date_List1 > CONVERT(DATE, '2018-12-31', 102)) 
-    AND (WOA.Status = 'A') 
+    --AND (WOA.Status = 'A') 
+	AND (WO.Hold_Status <> 'C')
     AND (LTRIM(RTRIM(WO.WO_Job_Division)) <> 'TKSKC') 
     AND (LTRIM(RTRIM(WO.WO_Job_Division)) <> 'TKSKP') 
     AND (LTRIM(RTRIM(WO.WO_Job_Division)) <> 'TKSKS') 
