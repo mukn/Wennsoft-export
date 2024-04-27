@@ -132,13 +132,13 @@ FROM
     dbo.WO_HEADER2_V_MC AS WO WITH (nolock) 
     LEFT OUTER JOIN
     dbo.WO_ADDRESS_MC AS WOA WITH (nolock) 
-        ON WOA.Ship_To_Name = WO.Name 
+        ON LTRIM(RTRIM(WOA.Ship_To_ID)) = LTRIM(RTRIM(WO.WO_Job_Number))
         AND WOA.Company_Code = WO.Company_Code 
-        AND WOA.Ship_To_Address1 = WO.WO_Address_1 
-        AND WOA.Ship_To_Address2 = WO.WO_Address_2 
-        AND WOA.Ship_To_City = WO.WO_City 
-        AND WOA.Ship_To_State = WO.WO_State 
-        AND WOA.Ship_To_Zip_Code = WO.WO_Zip_Code 
+        --AND WOA.Ship_To_Address1 = WO.WO_Address_1 
+        --AND WOA.Ship_To_Address2 = WO.WO_Address_2 
+        --AND WOA.Ship_To_City = WO.WO_City 
+        --AND WOA.Ship_To_State = WO.WO_State 
+        --AND WOA.Ship_To_Zip_Code = WO.WO_Zip_Code 
     LEFT OUTER JOIN
     dbo.WO_DISPATCH_STATUS_MC AS Dispatch WITH (nolock) 
         ON WO.Company_Code = Dispatch.Company_Code 
