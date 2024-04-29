@@ -53,6 +53,7 @@ SELECT
   ,Cust.Customer_Email
   ,Site.Latitude AS Location_Latitude
   ,Site.Longitude AS Location_Longitude
+  ,Site.Special_Instructions AS Location_Notes
 FROM
   dbo.Z_K2A_EXPORT_CUSTOMERS AS Cust
   RIGHT OUTER JOIN
@@ -86,6 +87,4 @@ WHERE
 GROUP BY Contract.Site_ID, Contract.Contract_Amount, Contract2.Status, Contract.Contract_Number, Site.Ship_To_Name, Site.Ship_To_Address1, Site.Ship_To_Address2, Site.Ship_To_City, 
                          Site.Ship_To_State, Site.Ship_To_Zip_Code, Site.Ship_To_Phone1, Site.Ship_To_Phone2, Site.Site_Contact_Person, Site.Zone, WU.Vert_Market, Site.Sales_Tax_Code, 
                          Contract.Customer_Code, Contract.BILLTO_CODE, Contract.ALTERNATE_ADDRESS, Bill.AltName, PA.Addr_1, PA.Addr_2, PA.Addr_City, PA.Addr_State, PA.Addr_Zip, 
-                         Cust.Customer_Email, Site.Longitude, Site.Latitude
-HAVING   
-  (Contract2.Status = 'active')
+                         Cust.Customer_Email, Site.Longitude, Site.Latitude, Site.Special_Instructions
