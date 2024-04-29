@@ -30,6 +30,7 @@ SELECT
   ,Cust.Customer_Email
   ,Site.Latitude AS Location_Latitude
   ,Site.Longitude AS Location_Longitude
+  ,Site.Special_Instructions
 FROM
   dbo.PA_ADDRESS_MASTER AS PA
   RIGHT OUTER JOIN
@@ -61,6 +62,6 @@ WHERE
   (Contract.Company_Code = 'NA2')
 GROUP BY Contract.Site_ID, Contract.Description, Contract.Contract_Amount, Contract2.Status, Contract.Contract_Number, Site.Ship_To_Name, Site.Ship_To_Address1, Site.Ship_To_Address2, 
                          Site.Ship_To_City, Site.Ship_To_State, Site.Ship_To_Zip_Code, Site.Latitude, Site.Longitude, Site.Ship_To_Phone1, Site.Ship_To_Phone2, Site.Site_Contact_Person, Site.Zone, WU.Vert_Market, Site.Sales_Tax_Code, 
-                         Contract.Customer_Code, Contract.BILLTO_CODE, Contract.ALTERNATE_ADDRESS, Bill.AltName, PA.Addr_1, PA.Addr_2, PA.Addr_City, PA.Addr_State, PA.Addr_Zip,Cust.Customer_Email
+                         Contract.Customer_Code, Contract.BILLTO_CODE, Contract.ALTERNATE_ADDRESS, Bill.AltName, PA.Addr_1, PA.Addr_2, PA.Addr_City, PA.Addr_State, PA.Addr_Zip,Cust.Customer_Email, Site.Special_Instructions
 HAVING (Contract2.Status = 'active')
 ORDER BY Contract.Customer_Code
