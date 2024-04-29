@@ -128,6 +128,7 @@ SELECT
         WHEN WO.Complete_Date > WO.WO_Date_List1 THEN 'Complete' 
         ELSE 'Open' 
     END AS Status
+    ,WOA.Special_Instructions AS Location_Alert
 FROM
     dbo.WO_HEADER2_V_MC AS WO WITH (nolock) 
     LEFT OUTER JOIN
