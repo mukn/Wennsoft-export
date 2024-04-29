@@ -1,8 +1,9 @@
 SELECT
 	L.Customer_Code
 	,L.Location_Code
+	,'L' AS Note_Type
 	,LNotes.Notes_Topic AS Notes_Service_Index
-	 ,dbo.udf_StripHTML(LNotes.Notes_Text) AS Notes_Text
+	,dbo.udf_StripHTML(LNotes.Notes_Text) AS Notes_Text
 FROM
 	Z_Wennsoft_export_locations_union AS L
 	LEFT OUTER JOIN
