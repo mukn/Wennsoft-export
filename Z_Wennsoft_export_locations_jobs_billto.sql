@@ -25,6 +25,7 @@ SELECT
   ,Cust.Customer_Email
   ,j1.Latitude AS Location_Latitude
   ,j1.Longitude AS Location_Longitude
+  ,'' AS Location_Notes
 FROM
   dbo.JC_JOB_MASTER_MC AS j1
   LEFT OUTER JOIN
