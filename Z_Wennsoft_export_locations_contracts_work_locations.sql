@@ -30,7 +30,7 @@ SELECT
   ,Cust.Customer_Email
   ,Site.Latitude AS Location_Latitude
   ,Site.Longitude AS Location_Longitude
-  ,Site.Special_Instructions
+  ,Site.Special_Instructions AS Location_Notes
 FROM
   dbo.PA_ADDRESS_MASTER AS PA
   RIGHT OUTER JOIN
