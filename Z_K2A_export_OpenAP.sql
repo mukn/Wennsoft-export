@@ -11,6 +11,7 @@ SELECT
   ,v1.Date_List2
   ,v1.Date_List3
   ,v1.Date_List4 AS Date_Due
+  , v1.Date_List5 AS Discount_Date
   ,CASE
 	WHEN v1.Invoice_Type_Code = 'I' THEN v1.Invoice_Amount
 	WHEN v1.Invoice_Type_Code = 'C' THEN (v1.Invoice_Amount * -1)
