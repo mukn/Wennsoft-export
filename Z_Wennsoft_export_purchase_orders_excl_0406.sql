@@ -74,7 +74,7 @@ SELECT
 FROM
 	Z_Wennsoft_purchase_orders_240507 AS wp					-- These are all the purchase orders imported to Wennsoft as of 7 May 2024.
 	RIGHT OUTER JOIN
-	Z_Wennsoft_export_purchase_orders_staging_1 AS p1		-- This selects all POs that are flagged as 'open' and belong to NA2.
+	Z_Wennsoft_export_purchase_orders AS p1					-- This selects all POs that are flagged as 'open' and belong to NA2.
 		ON wp.WS_PO_Number = p1.PO_Number
 	LEFT OUTER JOIN
 	(SELECT LTRIM(RTRIM(WO_Number)) AS WO_Number, Bill_State FROM WO_HEADER_MC WHERE Company_Code = 'NA2') AS wo
@@ -89,8 +89,9 @@ FROM
 		ON p1.PO_Number = LTRIM(RTRIM(Det.PO_Number)) AND p1.Line_Number = CAST(Det.Line_Number as int)
 	
 WHERE WS_PO_Number IS NULL									-- Remove any POs that have already been imported to Wennsoft. This is probably because of additional line items in Spectrum.
-	AND (p1.GL_Account NOT LIKE '04%')						-- Remove any POs that belong to Service division
-	AND (p1.GL_Account NOT LIKE '06%')						-- Remove any POs that belong to Special Projects divison
+	--AND (p1.GL_Account NOT LIKE '04%')						-- Remove any POs that belong to Service division
+	--AND (p1.GL_Account NOT LIKE '06%')						-- Remove any POs that belong to Special Projects divison
+	
 ORDER BY 
-	p1.PO_Number, CAST(p1.Line_Number AS int)				-- Sort by PO number then line number
+	p1.PO_Number DESC, CAST(p1.Line_Number AS int)			-- Sort by PO number then line number
 	-- p1.GL_Account										-- Sort by GL code
