@@ -5,7 +5,7 @@ SELECT
 	p1.PO_Number
 	--,wp.WS_PO_Number										-- Preserving the row to simplify QA testing at the end.
 	,CAST(p1.Line_Number AS int) AS Line_Number
-	,CAST(p1.Document_Date AS date) AS Document_Date
+	,p1.Document_Date
 	,CASE
 		WHEN p1.Line_Number IS NULL THEN 'HEADER'
 		ELSE 'LINE'
@@ -14,10 +14,32 @@ SELECT
 	,1 AS UpdateIfExists
 	,LTRIM(RTRIM(p1.Vendor_Code)) AS Vendor_Code
 	,1 AS PO_Type
-	,p1.Work_Number
+	,CASE
+		WHEN p1.Work_Number = 'NOYESSHOP'
+			THEN ''
+		ELSE p1.Work_Number
+	END AS Work_Number
 	,p1.GL_Account
-	,gl.GL_Wennsoft
-	,gl.CostCodes_Wennsoft
+	,CASE
+		WHEN p1.Work_Number = 'NOYESSHOP'
+			THEN gl.GL_Wennsoft
+		WHEN LEN(p1.Work_Number) > 9
+			AND p1.Work_Number != 'NOYESSHOP'
+			THEN NULL
+		WHEN LEN(p1.Work_Number) > 4
+			AND p1.Work_Number != 'NOYESSHOP'
+			THEN NULL
+		ELSE gl.GL_Wennsoft
+	END AS GL_Wennsoft
+	
+	
+	,CASE
+		WHEN LEN(p1.Work_Number) > 9
+			AND p1.Work_Number != 'NOYESSHOP'
+			THEN gl.CostCodes_Wennsoft
+		ELSE NULL
+	END AS CostCodes_Wennsoft
+	
 	,CASE
 		WHEN LEN(P1.Work_Number) < 10
 			AND gl.CostCodes_Wennsoft LIKE '%EQ.%'
@@ -34,13 +56,15 @@ SELECT
 		ELSE 0
 	END AS Cost_Type
 	,CASE
+		WHEN p1.Work_Number = 'NOYESSHOP'
+			THEN 1
 		WHEN LEN(p1.Work_Number) > 9
 			AND p1.Work_Number != 'NOYESSHOP'
 			THEN 2
 		WHEN LEN(p1.Work_Number) > 4
 			AND p1.Work_Number != 'NOYESSHOP'
-			THEN 1
-		ELSE 0
+			THEN 3
+		ELSE 1
 	END AS Product_Indicator
 	,2 AS PO_Line_Status
 	,2 AS PO_Status
