@@ -16,9 +16,12 @@ SELECT
 	,1 AS PO_Type
 	,CASE
 		WHEN p1.Work_Number = 'NOYESSHOP'
-			THEN ''
+			THEN NULL
+		WHEN LEN(p1.Work_Number) < 5
+			THEN NULL
 		ELSE p1.Work_Number
 	END AS Work_Number
+	,p1.Work_Number AS Orig_Work_Number
 	,p1.GL_Account
 	,CASE
 		WHEN p1.Work_Number = 'NOYESSHOP'
@@ -31,15 +34,12 @@ SELECT
 			THEN NULL
 		ELSE gl.GL_Wennsoft
 	END AS GL_Wennsoft
-	
-	
 	,CASE
 		WHEN LEN(p1.Work_Number) > 9
 			AND p1.Work_Number != 'NOYESSHOP'
 			THEN gl.CostCodes_Wennsoft
 		ELSE NULL
 	END AS CostCodes_Wennsoft
-	
 	,CASE
 		WHEN LEN(P1.Work_Number) < 10
 			AND gl.CostCodes_Wennsoft LIKE '%EQ.%'
