@@ -20,4 +20,4 @@ FROM
   LEFT OUTER JOIN
   WO_EQUIPMENT_MC AS notes
     ON c1.Location_Work = LTRIM(RTRIM(notes.Site_ID)) AND equip.Equipment_Code = notes.Equip_ID
-ORDER BY c1.Contract_number
+ORDER BY c1.Customer_Code, c1.Contract_number
